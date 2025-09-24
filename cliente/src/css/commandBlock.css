@@ -1,0 +1,19 @@
+/* evitar seleção enquanto arrasta */
+#main-drop, .childZone, .programBlock, .programHeader {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+/* highlight da zona quando em dragover */
+#main-drop.dragover,
+.childZone.dragover {
+  background: rgba(0,0,0,0.03);
+  transition: background 120ms ease;
+}
+
+/* bloco a ser arrastado (sombra leve) */
+.programBlock.dragging {
+  opacity: 0.8;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}

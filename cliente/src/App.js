@@ -1,26 +1,42 @@
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import PythonInterpreter from "./pages/PythonInterpreter";
 
+import Container from "react-bootstrap/Container";
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+
+
 function App() {
   return (
-    <div>
-      <nav>
-        <Link to="/">Home</Link> |{" "}
-        <Link to="/about">Sobre</Link> |{" "}
-        <Link to="/notfound">Not Found</Link>|{" "}
-        <Link to="/python">Python Interpreter</Link>
-      </nav>
+    <Container fluid className="App min-vh-100" style={{ backgroundColor: '#4277c7' }}>
+      <Navbar  expand="lg" className="bg-body-tertiary vw-100 ">
+        <Container>
+        <Navbar.Brand href="/">Logo</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/about">Sobre</Nav.Link>
+            <Nav.Link href="/notfound">Not Found</Nav.Link>
+            <Nav.Link href="/python">Python Interpreter</Nav.Link>
+          </Nav>
 
+        </Navbar.Collapse>
+        </Container>
+      </Navbar>
+      <Container className="mt-4 mb-4 bg-body-tertiary p-3 rounded mainContainer">
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="*" element={<NotFound />} />
-        <Route path="/python" element={<PythonInterpreter />} />
+      <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="/python" element={<PythonInterpreter />} />
+
       </Routes>
-    </div>
+      </Container>
+    </Container>
   );
 }
 
