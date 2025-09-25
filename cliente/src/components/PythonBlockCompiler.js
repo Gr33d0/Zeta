@@ -4,6 +4,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 
+import Hint from "./Hint";
 /**
  * PythonBlockCompiler
  * - Palete (esquerda) com blocos e templates editáveis: assign (" = "), if ("if :"), print ("print()")
@@ -409,6 +410,9 @@ export default function PythonBlockCompiler() {
           )}
         </Col>
       </Row>
+              <Row>
+            <Hint message="Arrasta os blocos da paleta para a zona de drop" />
+        </Row>
     </div>
   );
 }
