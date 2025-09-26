@@ -1,0 +1,39 @@
+{
+  "chapter": [
+    {
+      "id": "intro",
+      "title": "Introdução",
+      "requiredStars": 0,
+      "levels": [
+        {
+          "id": "L1",
+          "title": "Nível 1: Olá Mundo",
+          "description": "Escreva um programa que imprima Olá mundo",
+          "blocos": ["print"],
+          "stars": 1
+        },
+        {
+          "id": "L2",
+          "title": "Nível 2: Variáveis",
+          "description": "Escreva um programa que declare uma variável x e atribua o valor 2",
+          "blocos": ["print","var"],
+          "stars": 2
+        },
+        {
+          "id": "L3",
+          "title": "Nível 3: Condicionais",
+          "description": "Utiliza if para imprimir Olá mundo se a variavel x for igual a 1",
+          "blocos": ["print","if"],
+          "stars": 3
+        },
+        {
+          "id": "L4",
+          "title": "Nível 4: Repetição",
+          "description": "Utiliza while para imprimir Olá mundo 5 vezes",
+          "blocos": ["print","while"],
+          "stars": 4
+        }
+      ]
+    }
+  ]
+}

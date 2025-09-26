@@ -1,0 +1,29 @@
+.level-button {
+    margin: 10px;
+    width: 80px;   /* largura fixa */
+    height: 80px;  /* altura igual à largura */
+    font-size: 24px;
+    border: none;
+    border-radius: 50%; /* círculo perfeito */
+    cursor: pointer;
+    background-color: #90CCD6; /* azul */
+    color: white;
+    transition: all 0.3s ease;
+
+    /* sombra estilo 3D */
+    box-shadow: 0 6px 0 #90CCD6,
+                0 6px 12px rgba(0,0,0,0.3);
+}
+
+.level-button:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 #90CCD6,
+                0 2px 6px rgba(0,0,0,0.3);
+}
+
+.level-button:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 #90CCD6,
+                0 2px 6px rgba(0,0,0,0.3);
+}
+

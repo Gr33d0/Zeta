@@ -7,13 +7,15 @@ import TestComponents from "./pages/TestComponents";
 import Container from "react-bootstrap/Container";
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import LevelPage from "./pages/LevelPage";
+import React from "react";
 
 import './css/App.css';
 
 
 function App() {
   return (
-    <Container fluid className="App vh-100 pl-0 pr-0" >
+    <Container fluid className="App vh-100" >
       <Navbar  expand="lg" className="bg-body-tertiary App-header  ">
         <Container>
         <Navbar.Brand href="/">Logo</Navbar.Brand>
@@ -37,6 +39,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
           <Route path="/python" element={<PythonInterpreter />} />
           <Route path="/testcomponents" element={<TestComponents />} />
+          <Route path="/level/:levelId" element={ <React.Suspense fallback={<div>Loading...</div>}><LevelPage /></React.Suspense>} />
 
       </Routes>
       </Container>

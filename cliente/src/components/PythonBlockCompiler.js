@@ -15,7 +15,7 @@ import Hint from "./Hint";
  * - Altura do drop = altura da palete (ResizeObserver)
  * - Render exclusivo: Erro OU Saída OU (sem saída)
  */
-export default function PythonBlockCompiler() {
+export default function PythonBlockCompiler({ allowedBlocks = [], onAfterRun = () => {} }) {
   const mainRef = useRef(null);     // zona raiz (drop)
   const paletteRef = useRef(null);  // coluna da palete (para medir altura)
   const dragState = useRef({ draggingEl: null });
@@ -25,6 +25,13 @@ export default function PythonBlockCompiler() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const can = (name) => {
+  if (!allowedBlocks || allowedBlocks.length === 0) return true; // sem restrição
+  // mapeia nomes do teu JSON -> templates usados aqui
+  const map = { var: "assign", if: "if", print: "print", while: "while" };
+  const key = map[name] || name;
+  return allowedBlocks.includes(name) || allowedBlocks.includes(key);
+};
   // === Altura do drop sincronizada com a palete ===
   useEffect(() => {
     const el = paletteRef.current;
@@ -314,105 +321,107 @@ export default function PythonBlockCompiler() {
     const codeStr = linhas.join("\n");
     
     run(codeStr);
+    onAfterRun(codeStr, result);
   }
 
   // === Render ===
-  return (
-    <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-      <Row>
-        {/* Palete (esquerda) */}
-        <Col md={4}>
-          <h5 style={{ marginBottom: 8 }}>Palete</h5>
-          <div ref={paletteRef}>
-            <ListGroup>
-              {/* Editáveis */}
-              <ListGroup.Item>
-                <CommandBlock id="tpl-assign" command=" = " template="assign" />
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <CommandBlock id="tpl-if" command="if :" template="if" tab={1} />
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <CommandBlock id="tpl-print" command="print()" template="print" />
-              </ListGroup.Item>
-              {/* Exemplos fixos */}
-              <ListGroup.Item>
-                <CommandBlock id="cb-a" command="a = 2" />
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <CommandBlock id="cb-b" command="b = 1" />
-              </ListGroup.Item>
-            </ListGroup>
-          </div>
-        </Col>
+return (
+  <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+    <Row>
+      {/* Palete (esquerda) */}
+      <Col md={4}>
+        <h5 style={{ marginBottom: 8 }}>Palete</h5>
+        <div ref={paletteRef}>
+          <ListGroup>
+            {/* Editáveis */}
+            <ListGroup.Item>
+              <CommandBlock id="tpl-assign" command=" = " template="assign" />
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <CommandBlock id="tpl-if" command="if :" template="if" tab={1} />
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <CommandBlock id="tpl-print" command="print()" template="print" />
+            </ListGroup.Item>
+            {/* Exemplos fixos */}
+            <ListGroup.Item>
+              <CommandBlock id="cb-a" command="a = 2" />
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <CommandBlock id="cb-b" command="b = 1" />
+            </ListGroup.Item>
+          </ListGroup>
+        </div>
+      </Col>
 
-        {/* Zona de drop (direita) */}
-        <Col md={8}>
-          <h5 style={{ marginBottom: 8 }}>Constrói o programa</h5>
-          <div
-            id="main-drop"
-            ref={mainRef}
-            onDragOver={(e) => onZoneDragOver(e, mainRef.current)}
-            onDragLeave={(e) => onZoneDragLeave(e, mainRef.current)}
-            onDrop={(e) => onZoneDrop(e, mainRef.current)}
-            style={{
-              height: dropH,
-              overflowY: "auto",
-              border: "1px dashed #aaa",
-              padding: 8,
-              borderRadius: 8,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "stretch",
-              gap: 8,
-              background: "#fcfcfc",
-            }}
-          />
-          <button onClick={gerarCodigo} disabled={loading} style={{ marginTop: 12 }}>
-            {loading ? "A executar..." : "▶ Executar"}
-          </button>
+      {/* Zona de drop (direita) */}
+      <Col md={8}>
+        <h5 style={{ marginBottom: 8 }}>Constrói o programa</h5>
+        <div
+          id="main-drop"
+          ref={mainRef}
+          onDragOver={(e) => onZoneDragOver(e, mainRef.current)}
+          onDragLeave={(e) => onZoneDragLeave(e, mainRef.current)}
+          onDrop={(e) => onZoneDrop(e, mainRef.current)}
+          style={{
+            height: dropH,
+            overflowY: "auto",
+            border: "1px dashed #aaa",
+            padding: 8,
+            borderRadius: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "stretch",
+            gap: 8,
+            background: "#fcfcfc",
+          }}
+        />
+        <button onClick={gerarCodigo} disabled={loading} style={{ marginTop: 12 }}>
+          {loading ? "A executar." : "▶ Executar"}
+        </button>
 
-          {result && (
-            <div style={{ marginTop: 16 }}>
-              {(() => {
-                const errText =
-                  (typeof result.error === "string" && result.error.trim()) ||
-                  (typeof result.stderr === "string" && result.stderr.trim());
-                const outText =
-                  (typeof result.stdout === "string" && result.stdout.trim()) || "";
+        {result && (
+          <div style={{ marginTop: 16 }}>
+            {(() => {
+              const errText =
+                (typeof result.error === "string" && result.error.trim()) ||
+                (typeof result.stderr === "string" && result.stderr.trim());
+              const outText =
+                (typeof result.stdout === "string" && result.stdout.trim()) || "";
 
-                if (errText) {
-                  return (
-                    <>
-                      <h5 style={{ color: "crimson" }}>Erro</h5>
-                      <pre>{(result.error && String(result.error)) || String(result.stderr)}</pre>
-                    </>
-                  );
-                }
+              if (errText) {
+                return (
+                  <>
+                    <h5 style={{ color: "crimson" }}>Erro</h5>
+                    <pre>{(result.error && String(result.error)) || String(result.stderr)}</pre>
+                  </>
+                );
+              }
 
-                if (outText) {
-                  return (
-                    <>
-                      <h5>Saída</h5>
-                      <pre>{String(result.stdout)}</pre>
-                    </>
-                  );
-                }
-
+              if (outText) {
                 return (
                   <>
                     <h5>Saída</h5>
-                    <pre>(sem saída)</pre>
+                    <pre>{String(result.stdout)}</pre>
                   </>
                 );
-              })()}
-            </div>
-          )}
-        </Col>
-      </Row>
-              <Row>
-            <Hint message="Arrasta os blocos da paleta para a zona de drop" />
-        </Row>
-    </div>
-  );
+              }
+
+              return (
+                <>
+                  <h5>Saída</h5>
+                  <pre>(sem saída)</pre>
+                </>
+              );
+            })()}
+          </div>
+        )}
+      </Col>
+    </Row>
+    <Row>
+      <Hint message="Arrasta os blocos da paleta para a zona de drop" />
+    </Row>
+  </div>
+);
+
 }

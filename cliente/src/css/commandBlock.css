@@ -21,15 +21,15 @@
 
 /* Tabs inativos */
 .nav-tabs .nav-link {
-  background-color: #f0f0f0; /* cor de fundo inativo */
-  color: #333;               /* cor do texto inativo */
-  border: 1px solid #dee2e6;
+  background-color: #6dc3e8 !important; /* cor de fundo inativo */
+  color:white;               /* cor do texto inativo */
+  border: 1px solid #6dc3e8 !important;
   margin-right: 4px;
 }
 
 /* Tab ativo */
 .nav-tabs .nav-link.active {
-  background-color: #0d6efd; /* cor de fundo ativo */
-  color: white;              /* cor do texto ativo */
-  border: 1px solid #0d6efd;
+  background-color: #0098d7 !important; /* cor de fundo ativo */
+  color: white !important;              /* cor do texto ativo */
+  border: 1px solid #0098d7 !important;
 }

@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import Hint from "./Hint";
 
-export default function PythonTextCompiler() {
+export default function PythonTextCompiler({ onAfterRun = () => {} }) {
   const [code, setCode] = useState('print("Olá do Python!")');
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -47,8 +47,11 @@ export default function PythonTextCompiler() {
       });
       const data = await res.json();
       setResult(data);
+      onAfterRun(code, data); // <--- NOVO
     } catch (e) {
-      setResult({ error: "Falha ao contactar servidor.", detail: String(e) });
+      const err = { error: "Falha ao contactar servidor.", detail: String(e) };
+      setResult(err);
+      onAfterRun(code, err); // <--- NOVO
     } finally {
       setLoading(false);
     }
@@ -56,7 +59,9 @@ export default function PythonTextCompiler() {
 
   return (
     <>
-      <Row style={{ maxWidth: 1000, margin: "1rem auto", padding: 16, gap: 16 }}>
+      <Row
+        style={{ maxWidth: 1000, margin: "1rem auto", padding: 16, gap: 16 }}
+      >
         <Col xs={12} md={6}>
           <h2>Executar Python</h2>
           <textarea
@@ -65,10 +70,10 @@ export default function PythonTextCompiler() {
             onChange={(e) => setCode(e.target.value)}
             onKeyDown={handleKeyDown}
             rows={14}
-
             style={{
               width: "100%",
-              fontFamily: "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+              fontFamily:
+                "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
               resize: "none",
               borderRadius: 8,
               padding: 12,
@@ -102,16 +107,20 @@ export default function PythonTextCompiler() {
               {"error" in result ? (
                 <>
                   <h4 style={{ color: "crimson" }}>Erro</h4>
-                  <pre style={{ margin: 0 }}>&gt;
-{result.error}
-{result.detail ? `\n${result.detail}` : ""}
+                  <pre style={{ margin: 0 }}>
+                    &gt;
+                    {result.error}
+                    {result.detail ? `\n${result.detail}` : ""}
                   </pre>
                 </>
               ) : (
                 <>
-                  <pre style={{ margin: 0 }}>&gt;
-{(result.stdout && result.stdout.length ? result.stdout : "")}
-{(result.stderr && result.stderr.length ? `\n${result.stderr}` : "")}
+                  <pre style={{ margin: 0 }}>
+                    &gt;
+                    {result.stdout && result.stdout.length ? result.stdout : ""}
+                    {result.stderr && result.stderr.length
+                      ? `\n${result.stderr}`
+                      : ""}
                   </pre>
                 </>
               )}

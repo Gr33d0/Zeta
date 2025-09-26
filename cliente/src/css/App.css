@@ -1,10 +1,11 @@
 .App {
   text-align: center;
 
-  background-color: #4277c7;
+  background-color: #ffffff;
   
 
-
+  padding-left: 0px !important; 
+  padding-right: 0px !important;
   
 }
 
