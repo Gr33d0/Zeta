@@ -1,0 +1,20 @@
+.bubble-left {
+  margin-right: 12px;
+  position: relative;
+  background: #f0f0f0;
+  border-radius: 8px;
+  padding: 16px;
+  max-width: 320px;
+}
+
+.bubble-left::after {
+  content: "";
+  position: absolute;
+  right: -16px;
+  top: 32px;
+  width: 0;
+  height: 0;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 16px solid #f0f0f0;
+}

@@ -1,0 +1,16 @@
+.App {
+  text-align: center;
+}
+
+.main-navbar {
+  background-color: #8ec4d4 !important;
+  padding: 10px;
+
+}
+
+.main-navbar .nav-link {
+  color: #000000 !important; /* ou a cor que quiseres */
+}
+.main-navbar .nav-link.active {
+  color: #000000 !important; /* cor para o link ativo */
+}

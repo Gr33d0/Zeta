@@ -4,13 +4,15 @@ import Col from "react-bootstrap/Col";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 
-import PythonTextCompiler from "../components/PythonTextCompiler";
-import PythonBlockCompiler from "../components/PythonBlockCompiler";
-import "../css/Interpreter.css";
+import PythonTextCompiler from "../../components/PythonTextCompiler";
+import PythonBlockCompiler from "../../components/PythonBlockCompiler";
+import Hint from '../../components/Hint';
+import "../../css/Interpreter.css";
+
 
 export default function PythonInterpreter() {
   return (
-    <Container className=" interpreter-container py-3">
+    <Container className="py-3 interpreter-container">
       <Row>
         <Col>
           <Tabs defaultActiveKey="block" id="python-mode-tabs" className="mb-3" fill>
@@ -22,6 +24,11 @@ export default function PythonInterpreter() {
             </Tab>
           </Tabs>
         </Col>
+      </Row>
+      <Row className="justify-content-center">
+        <Col className="d-flex justify-content-center">
+          <Hint />
+        </Col>  
       </Row>
     </Container>
   );

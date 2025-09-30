@@ -3,7 +3,8 @@ import { useRef, useState, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
-
+import ExecuteButton from "./ExecuteButton";
+import ExecutionResult from "./ExecutionResult";
 /**
  * PythonBlockCompiler
  * - Palete (esquerda) com blocos e templates editáveis: assign (" = "), if ("if :"), print ("print()")
@@ -14,9 +15,16 @@ import ListGroup from "react-bootstrap/ListGroup";
  * - Altura do drop = altura da palete (ResizeObserver)
  * - Render exclusivo: Erro OU Saída OU (sem saída)
  */
-export default function PythonBlockCompiler() {
-  const mainRef = useRef(null);     // zona raiz (drop)
-  const paletteRef = useRef(null);  // coluna da palete (para medir altura)
+export default function PythonBlockCompiler({
+   allowedVar = false,
+  allowedCondition = false,
+  allowedLoops = false
+}
+
+ 
+) {
+  const mainRef = useRef(null); // zona raiz (drop)
+  const paletteRef = useRef(null); // coluna da palete (para medir altura)
   const dragState = useRef({ draggingEl: null });
 
   const [dropH, setDropH] = useState(240);
@@ -24,7 +32,7 @@ export default function PythonBlockCompiler() {
   const [loading, setLoading] = useState(false);
 
   // === Altura do drop sincronizada com a palete ===
-  useEffect(() => { 
+  useEffect(() => {
     const el = paletteRef.current;
     if (!el) return;
     const sync = () => setDropH(Math.ceil(el.getBoundingClientRect().height));
@@ -50,7 +58,8 @@ export default function PythonBlockCompiler() {
       const after = getDragAfterElement(zoneEl, e.clientY);
       if (!after) {
         if (draggingEl.parentElement !== zoneEl) zoneEl.appendChild(draggingEl);
-        else if (zoneEl.lastElementChild !== draggingEl) zoneEl.appendChild(draggingEl);
+        else if (zoneEl.lastElementChild !== draggingEl)
+          zoneEl.appendChild(draggingEl);
       } else if (after !== draggingEl) {
         zoneEl.insertBefore(draggingEl, after);
       }
@@ -83,12 +92,15 @@ export default function PythonBlockCompiler() {
   }
 
   function getDragAfterElement(container, y) {
-    const els = [...container.children].filter((el) => el.classList?.contains("programBlock"));
+    const els = [...container.children].filter((el) =>
+      el.classList?.contains("programBlock")
+    );
     let closest = { offset: Number.NEGATIVE_INFINITY, element: null };
     for (const child of els) {
       const rect = child.getBoundingClientRect();
       const offset = y - (rect.top + rect.height / 2);
-      if (offset < 0 && offset > closest.offset) closest = { offset, element: child };
+      if (offset < 0 && offset > closest.offset)
+        closest = { offset, element: child };
     }
     return closest.element;
   }
@@ -149,24 +161,38 @@ export default function PythonBlockCompiler() {
       const eq = textNode("=");
       const exprInp = input("expr", "2", updatePreview);
       header.append(varInp, eq, exprInp);
-      const preview = textNode("   → a=2"); stylePreview(preview); header.appendChild(preview);
-      function updatePreview() { preview.textContent = `   → ${(varInp.value || "a")}=${exprInp.value || "2"}`; }
+      const preview = textNode("   → a=2");
+      stylePreview(preview);
+      header.appendChild(preview);
+      function updatePreview() {
+        preview.textContent = `   → ${varInp.value || "a"}=${
+          exprInp.value || "2"
+        }`;
+      }
       updatePreview();
     } else if (tpl === "if") {
       const ifTxt = textNode("if ");
       const condInp = input("cond", "a<2", updatePreview);
       const colon = textNode(":");
       header.append(ifTxt, condInp, colon);
-      const preview = textNode("   → if a<2:"); stylePreview(preview); header.appendChild(preview);
-      function updatePreview() { preview.textContent = `   → if ${(condInp.value || "a<2")}:`; }
+      const preview = textNode("   → if a<2:");
+      stylePreview(preview);
+      header.appendChild(preview);
+      function updatePreview() {
+        preview.textContent = `   → if ${condInp.value || "a<2"}:`;
+      }
       updatePreview();
     } else if (tpl === "print") {
       const p1 = textNode("print(");
       const exprInp = input("expr", "a+b", updatePreview);
       const p2 = textNode(")");
       header.append(p1, exprInp, p2);
-      const preview = textNode("   → print(a+b)"); stylePreview(preview); header.appendChild(preview);
-      function updatePreview() { preview.textContent = `   → print(${exprInp.value || "a+b"})`; }
+      const preview = textNode("   → print(a+b)");
+      stylePreview(preview);
+      header.appendChild(preview);
+      function updatePreview() {
+        preview.textContent = `   → print(${exprInp.value || "a+b"})`;
+      }
       updatePreview();
     } else {
       header.setAttribute("data-code", codeText);
@@ -193,8 +219,12 @@ export default function PythonBlockCompiler() {
         flexDirection: "column",
         gap: "8px",
       });
-      childZone.addEventListener("dragover", (e) => onZoneDragOver(e, childZone));
-      childZone.addEventListener("dragleave", (e) => onZoneDragLeave(e, childZone));
+      childZone.addEventListener("dragover", (e) =>
+        onZoneDragOver(e, childZone)
+      );
+      childZone.addEventListener("dragleave", (e) =>
+        onZoneDragLeave(e, childZone)
+      );
       childZone.addEventListener("drop", (e) => onZoneDrop(e, childZone));
 
       wrap.appendChild(childZone);
@@ -260,9 +290,15 @@ export default function PythonBlockCompiler() {
         stderr: data.stderr || "",
       };
     }
-    const stdout = data.stdout ?? data.output ?? data.result ?? (okFlag ? data.message : "") ?? "";
+    const stdout =
+      data.stdout ??
+      data.output ??
+      data.result ??
+      (okFlag ? data.message : "") ??
+      "";
     const stderr = data.stderr ?? (!okFlag ? data.message || "Erro" : "");
-    if (!stdout && !stderr) return { stdout: "", stderr: "", info: "Sem saída do programa." };
+    if (!stdout && !stderr)
+      return { stdout: "", stderr: "", info: "Sem saída do programa." };
     return { stdout: String(stdout || ""), stderr: String(stderr || "") };
   }
 
@@ -286,11 +322,15 @@ export default function PythonBlockCompiler() {
       const x = (exprInp?.value || "a+b").trim();
       return `print(${x})`;
     }
-    return headerEl.getAttribute("data-code") ?? headerEl.textContent?.trim() ?? "";
+    return (
+      headerEl.getAttribute("data-code") ?? headerEl.textContent?.trim() ?? ""
+    );
   }
 
   function generateFromZone(zoneEl, indent = 0, acc = []) {
-    const blocks = [...zoneEl.children].filter((n) => n.classList?.contains("programBlock"));
+    const blocks = [...zoneEl.children].filter((n) =>
+      n.classList?.contains("programBlock")
+    );
     for (const block of blocks) {
       const header = block.querySelector(".programHeader");
       const line = codeFromHeader(header);
@@ -324,22 +364,46 @@ export default function PythonBlockCompiler() {
           <div ref={paletteRef}>
             <ListGroup>
               {/* Editáveis */}
+              {allowedVar && (
+                <ListGroup.Item>
+                  <CommandBlock
+                    id="tpl-assign"
+                    command=" = "
+                    template="assign"
+                  />
+                </ListGroup.Item>
+              )}
+
+              {allowedCondition && (
+                <ListGroup.Item>
+                  <CommandBlock
+                    id="tpl-if"
+                    command="if :"
+                    template="if"
+                    tab={1}
+                  />
+                </ListGroup.Item>
+              )}
+
               <ListGroup.Item>
-                <CommandBlock id="tpl-assign" command=" = " template="assign" />
+                <CommandBlock
+                  id="tpl-print"
+                  command="print()"
+                  template="print"
+                />
               </ListGroup.Item>
-              <ListGroup.Item>
-                <CommandBlock id="tpl-if" command="if :" template="if" tab={1} />
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <CommandBlock id="tpl-print" command="print()" template="print" />
-              </ListGroup.Item>
+
+              {allowedLoops && (
+                <ListGroup.Item>
+                  <CommandBlock
+                    id="tpl-for"
+                    command="for  in :"
+                    template="for"
+                    tab={1}
+                  />
+                </ListGroup.Item>
+              )}
               {/* Exemplos fixos */}
-              <ListGroup.Item>
-                <CommandBlock id="cb-a" command="a = 2" />
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <CommandBlock id="cb-b" command="b = 1" />
-              </ListGroup.Item>
             </ListGroup>
           </div>
         </Col>
@@ -366,46 +430,9 @@ export default function PythonBlockCompiler() {
               background: "#fcfcfc",
             }}
           />
-          <button onClick={gerarCodigo} disabled={loading} style={{ marginTop: 12 }}>
-            {loading ? "A executar..." : "▶ Executar"}
-          </button>
+          <ExecuteButton onClick={gerarCodigo} loading={loading} />
 
-          {result && (
-            <div style={{ marginTop: 16 }}>
-              {(() => {
-                const errText =
-                  (typeof result.error === "string" && result.error.trim()) ||
-                  (typeof result.stderr === "string" && result.stderr.trim());
-                const outText =
-                  (typeof result.stdout === "string" && result.stdout.trim()) || "";
-
-                if (errText) {
-                  return (
-                    <>
-                      <h5 style={{ color: "crimson" }}>Erro</h5>
-                      <pre>{(result.error && String(result.error)) || String(result.stderr)}</pre>
-                    </>
-                  );
-                }
-
-                if (outText) {
-                  return (
-                    <>
-                      <h5>Saída</h5>
-                      <pre>{String(result.stdout)}</pre>
-                    </>
-                  );
-                }
-
-                return (
-                  <>
-                    <h5>Saída</h5>
-                    <pre>(sem saída)</pre>
-                  </>
-                );
-              })()}
-            </div>
-          )}
+          <ExecutionResult result={result} />
         </Col>
       </Row>
     </div>

@@ -1,5 +1,6 @@
 import { useState } from "react";
-
+import ExecuteButton from "./ExecuteButton";
+import ExecutionResult from "./ExecutionResult";
 export default function PythonTextCompiler() {
   const [code, setCode] = useState('print("Olá do Python!")');
   const [result, setResult] = useState(null);
@@ -30,29 +31,14 @@ export default function PythonTextCompiler() {
         value={code}
         onChange={(e) => setCode(e.target.value)}
         rows={10}
-        style={{ width: "100%", fontFamily: "monospace", resize: "vertical" }}
+        style={{ width: "100%", fontFamily: "monospace", resize: "none" }}
       />
       <div style={{ marginTop: 8 }}>
-        <button onClick={run} disabled={loading}>
-          {loading ? "A executar..." : "▶ Executar"}
-        </button>
+        <ExecuteButton onClick={run} loading={loading} />
       </div>
 
-      {result && (
-        <div style={{ marginTop: 16 }}>
-          {"error" in result ? (
-            <>
-              <h4 style={{ color: "crimson" }}>Erro</h4>
-              <pre>{result.error}{result.detail ? `\n${result.detail}` : ""}</pre>
-            </>
-          ) : (
-            <>
-              <h4>Saída</h4>
-              <pre>{result.stdout || result.stderr}</pre>
-            </>
-          )}
-        </div>
-      )}
+      <ExecutionResult result={result} />
+      
     </div>
   );
 }
