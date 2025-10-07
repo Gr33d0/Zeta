@@ -9,7 +9,7 @@ const Lock = ({ size = 16 }) => (
 
 export default function LevelButton({
   level,
-  locked = false,
+  locked = true,
   size = 68,
   color = "#ffcc00",
   border = "#d9a600",
