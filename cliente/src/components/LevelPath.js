@@ -25,7 +25,7 @@ export default function LevelPath({ items = [] }) {
 
   const fetchStars = async () => {
   try {
-    const res = await fetch(`http://localhost:3001/getDataUser/${userId}`);
+    const res = await fetch(`http://localhost:3001/api/getDataUser/${userId}`);
     if (!res.ok) {
       console.error("HTTP", res.status, await res.text());
       return;
