@@ -36,8 +36,9 @@ export default function PythonTextCompiler() {
       <div style={{ marginTop: 8 }}>
         <ExecuteButton onClick={run} loading={loading} />
       </div>
-
-      <ExecutionResult result={result} />
+      
+      <ExecutionResult result={result} id={1} data={"Ola mundo"} />
+  
       
     </div>
   );

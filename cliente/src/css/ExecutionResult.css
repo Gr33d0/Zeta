@@ -1,0 +1,25 @@
+.main-div {
+  margin-top: 16px;
+  background: #111;
+  color: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  font-family: monospace;
+  font-size: 16px;
+  min-height: 80px;
+  white-space: pre-wrap;
+}
+
+.error-title {
+  color: #ff5555;
+}
+
+.output-text{
+    background: none;
+    color: #fff;
+    margin: 0;
+}
+
+.output-title{
+    color: #50fa7b;
+}

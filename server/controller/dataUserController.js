@@ -1,32 +1,14 @@
 import { promises as fs } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-
+import toArrayStore ,{ readJson}    from "../service/dataUserService.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Keep a single, consistent data file
 const DATA_FILE = path.join(__dirname, "../dataUser.json");
 
-// Small helper: read JSON safely
-async function readJson(filePath, fallback) {
-  try {
-    const raw = await fs.readFile(filePath, "utf8");
-    return JSON.parse(raw);
-  } catch {
-    return fallback;
-  }
-}
 
-// Normalize storage to an array of users: [{ id, stars, ... }]
-function toArrayStore(data) {
-  if (Array.isArray(data)) return data;
-  if (data && typeof data === "object") {
-    // convert object map {id: {...}} to array
-    return Object.entries(data).map(([id, v]) => ({ id, ...v }));
-  }
-  return [];
-}
 
 export async function getDataUser(req, res) {
   try {
@@ -53,6 +35,8 @@ export async function updateDataUser(req, res) {
   try {
     const id = String(req.params.id);
     const newData = (req.body && typeof req.body === "object") ? req.body : {};
+
+    console.log("PATCH /updateDataUser/:id", req.params.id, req.body);
 
     const dadosRaw = await readJson(DATA_FILE, []);
     const dados = toArrayStore(dadosRaw);

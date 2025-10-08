@@ -5,16 +5,7 @@ import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 import ExecuteButton from "./ExecuteButton";
 import ExecutionResult from "./ExecutionResult";
-/**
- * PythonBlockCompiler
- * - Palete (esquerda) com blocos e templates editáveis: assign (" = "), if ("if :"), print ("print()")
- * - Zona de drop (direita) com reordenação por drag interno e aninhamento (childZone para if)
- * - Clona quando vem da palete; move quando é programBlock
- * - Remove bloco ao largar fora de qualquer zona (dragend + elementFromPoint)
- * - Geração de código recursiva (indent por profundidade)
- * - Altura do drop = altura da palete (ResizeObserver)
- * - Render exclusivo: Erro OU Saída OU (sem saída)
- */
+
 export default function PythonBlockCompiler({
    allowedVar = false,
   allowedCondition = false,
@@ -432,7 +423,7 @@ export default function PythonBlockCompiler({
           />
           <ExecuteButton onClick={gerarCodigo} loading={loading} />
 
-          <ExecutionResult result={result} />
+          <ExecutionResult result={result}  id={1} data={"Ola mundo"}  />
         </Col>
       </Row>
     </div>
