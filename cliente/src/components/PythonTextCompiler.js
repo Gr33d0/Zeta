@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ExecuteButton from "./ExecuteButton";
 import ExecutionResult from "./ExecutionResult";
-export default function PythonTextCompiler() {
+export default function PythonTextCompiler({ level }) {
   const [code, setCode] = useState('print("Olá do Python!")');
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -36,10 +36,10 @@ export default function PythonTextCompiler() {
       <div style={{ marginTop: 8 }}>
         <ExecuteButton onClick={run} loading={loading} />
       </div>
-      
-      <ExecutionResult result={result} id={1} data={"Ola mundo"} />
-  
-      
+
+      <ExecutionResult level={level} result={result} id={1} data={"Ola mundo"} />
+
+
     </div>
   );
 }

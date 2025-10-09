@@ -11,37 +11,40 @@ export default function LevelPath({ items = [] }) {
   // 2) fetch stars once on mount (and expose a quick manual refresh if you want)
 
   function extractStars(data, userId) {
-  if (Number.isFinite(data?.stars)) return data.stars;
-  if (Array.isArray(data)) {
-    const u = data.find(u => String(u.id) === String(userId));
-    if (u && Number.isFinite(u.stars)) return u.stars;
+    if (Number.isFinite(data?.stars)) return data.stars;
+    if (Array.isArray(data)) {
+      const u = data.find((u) => String(u.id) === String(userId));
+      if (u && Number.isFinite(u.stars)) return u.stars;
+    }
+    if (data && typeof data === "object") {
+      const u = data[String(userId)] ?? data[userId];
+      if (u && Number.isFinite(u.stars)) return u.stars;
+    }
+    return null;
   }
-  if (data && typeof data === "object") {
-    const u = data[String(userId)] ?? data[userId];
-    if (u && Number.isFinite(u.stars)) return u.stars;
-  }
-  return null;
-}
 
   const fetchStars = async () => {
-  try {
-    const res = await fetch(`http://localhost:3001/api/getDataUser/${userId}`);
-    if (!res.ok) {
-      console.error("HTTP", res.status, await res.text());
-      return;
+    try {
+      const res = await fetch(
+        `http://localhost:3001/api/getDataUser/${userId}`
+      );
+      if (!res.ok) {
+        console.error("HTTP", res.status, await res.text());
+        return;
+      }
+      const data = await res.json();
+      const val = extractStars(data, userId);
+      if (Number.isFinite(val)) {
+        setStars(val);
+        localStorage.setItem("userStars", val);
+        console.log("Stars do servidor:", val);
+      } else {
+        console.warn("Resposta sem 'stars' válido:", data);
+      }
+    } catch (err) {
+      console.error("Erro ao obter dados do utilizador:", err);
     }
-    const data = await res.json();
-    const val = extractStars(data, userId);
-    if (Number.isFinite(val)) {
-      setStars(val);
-      console.log("Stars do servidor:", val);
-    } else {
-      console.warn("Resposta sem 'stars' válido:", data);
-    }
-  } catch (err) {
-    console.error("Erro ao obter dados do utilizador:", err);
-  }
-};
+  };
 
   useEffect(() => {
     fetchStars();

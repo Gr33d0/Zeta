@@ -9,7 +9,8 @@ import ExecutionResult from "./ExecutionResult";
 export default function PythonBlockCompiler({
    allowedVar = false,
   allowedCondition = false,
-  allowedLoops = false
+  allowedLoops = false,
+  level
 }
 
  
@@ -423,7 +424,7 @@ export default function PythonBlockCompiler({
           />
           <ExecuteButton onClick={gerarCodigo} loading={loading} />
 
-          <ExecutionResult result={result}  id={1} data={"Ola mundo"}  />
+          <ExecutionResult level={level} result={result}  id={1} data={"Ola mundo"}  />
         </Col>
       </Row>
     </div>

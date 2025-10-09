@@ -17,10 +17,10 @@ export default function PythonInterpreter() {
         <Col>
           <Tabs defaultActiveKey="block" id="python-mode-tabs" className="mb-3" fill>
             <Tab eventKey="text" title="Texto">
-              <PythonTextCompiler />
+              <PythonTextCompiler level={1} />
             </Tab>
             <Tab eventKey="block" title="Blocos">
-              <PythonBlockCompiler  allowedVar={true} allowedCondition={true} allowedLoops={true} />
+              <PythonBlockCompiler level={1} allowedVar={true} allowedCondition={true} allowedLoops={true} />
             </Tab>
           </Tabs>
         </Col>
