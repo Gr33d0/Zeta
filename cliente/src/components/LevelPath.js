@@ -48,7 +48,7 @@ export default function LevelPath({ items = [] }) {
 
   useEffect(() => {
     fetchStars();
-  }, []);
+  });
 
   // layout constants
   const width = 420;
@@ -126,6 +126,7 @@ export default function LevelPath({ items = [] }) {
               );
             })}
           </div>
+          
         </Col>
       </Row>
     </Container>

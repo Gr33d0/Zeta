@@ -10,11 +10,10 @@ export default function PythonBlockCompiler({
    allowedVar = false,
   allowedCondition = false,
   allowedLoops = false,
-  level
-}
-
- 
-) {
+  level,
+  expectedResult,
+  id
+}) {
   const mainRef = useRef(null); // zona raiz (drop)
   const paletteRef = useRef(null); // coluna da palete (para medir altura)
   const dragState = useRef({ draggingEl: null });
@@ -424,7 +423,7 @@ export default function PythonBlockCompiler({
           />
           <ExecuteButton onClick={gerarCodigo} loading={loading} />
 
-          <ExecutionResult level={level} result={result}  id={1} data={"Ola mundo"}  />
+          <ExecutionResult level={level} result={result}  id={id} data={expectedResult}  />
         </Col>
       </Row>
     </div>

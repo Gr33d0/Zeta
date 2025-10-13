@@ -4,6 +4,7 @@ import TestComponents from "./pages/TestComponents";
 import NotFound from "./pages/NotFound";
 import PythonInterpreter from "./pages/PythonInterpreter";
 import LevelLoader from "./pages/levels/LevelLoader"; // <- está dentro de /pages/levels
+import Stars from "./components/Stars";
 import Nav from "react-bootstrap/Nav";
 
 import "./css/App.css";
@@ -27,10 +28,9 @@ function App() {
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link as={Link} to="/python">
-            Python Interpreter
-          </Nav.Link>
-        </Nav.Item>
+     
+          <Stars/>
+          </Nav.Item>
       </Nav>
 
       <Routes>
