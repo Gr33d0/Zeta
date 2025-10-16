@@ -77,15 +77,15 @@ A aplicação estará disponível em [http://localhost:3000](http://localhost:30
 │   │   │   ├── 🖼️ Logo.png
 │   │   │   └── 🖼️ star-svgrepo-com.svg
 │   │   ├── 📁 components/
-│   │   │   ├── 📄 CommandBlock.js
-│   │   │   ├── 📄 ExecuteButton.js
-│   │   │   ├── 📄 ExecutionResult.js
-│   │   │   ├── 📄 Hint.js
-│   │   │   ├── 📄 LevelButton.js
-│   │   │   ├── 📄 LevelPath.js
-│   │   │   ├── 📄 PythonBlockCompiler.js
-│   │   │   ├── 📄 PythonTextCompiler.js
-│   │   │   └── 📄 Stars.js
+│   │   │   ├── 📄 CommandBlock.tsx
+│   │   │   ├── 📄 ExecuteButton.tsx
+│   │   │   ├── 📄 ExecutionResult.tsx
+│   │   │   ├── 📄 Hint.tsx
+│   │   │   ├── 📄 LevelButton.tsx
+│   │   │   ├── 📄 LevelPath.tsx
+│   │   │   ├── 📄 PythonBlockCompiler.tsx
+│   │   │   ├── 📄 PythonTextCompiler.tsx
+│   │   │   └── 📄 Stars.tsx
 │   │   ├── 📁 css/
 │   │   │   ├── 🎨 App.css
 │   │   │   ├── 🎨 ExecutionResult.css
@@ -95,14 +95,14 @@ A aplicação estará disponível em [http://localhost:3000](http://localhost:30
 │   │   │   └── 🎨 Star.css
 │   │   ├── 📁 pages/
 │   │   │   ├── 📁 levels/
-│   │   │   │   ├── 📄 Level.js
-│   │   │   │   ├── 📄 Level1.js
-│   │   │   │   ├── 📄 Level2.js
-│   │   │   │   └── 📄 LevelLoader.js
-│   │   │   ├── 📄 Home.js
-│   │   │   ├── 📄 NotFound.js
-│   │   │   ├── 📄 PythonInterpreter.js
-│   │   │   └── 📄 TestComponents.js
+│   │   │   │   ├── 📄 Level.tsx
+│   │   │   │   ├── 📄 Level1.jsx
+│   │   │   │   ├── 📄 Level2.jsx
+│   │   │   │   └── 📄 LevelLoader.tsx
+│   │   │   ├── 📄 Home.tsx
+│   │   │   ├── 📄 NotFound.tsx
+│   │   │   ├── 📄 PythonInterpreter.tsx
+│   │   │   └── 📄 TestComponents.tsx
 │   │   ├── 📄 App.js
 │   │   ├── 📄 App.test.js
 │   │   ├── 🎨 index.css
