@@ -1,6 +1,6 @@
 // src/pages/Home.jsx
 import { Container } from "react-bootstrap";
-import LevelPath from "../components/LevelPath";
+import LevelPath from "../components/LevelPath.tsx";
 
 export default function Home() {
   // lista de níveis a mostrar no “S”

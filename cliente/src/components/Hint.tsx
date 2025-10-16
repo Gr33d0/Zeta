@@ -1,8 +1,12 @@
 import "../css/Hint.css";
-import Logo from '../assets/Logo.png';
+import Logo from "../assets/Logo.png";
 import { Col, Row } from "react-bootstrap";
 
-export default function Hint({message}) {
+interface HintProps {
+  message: string;
+}
+
+export default function Hint({message}: HintProps) {
   return (
     <Row className="align-items-center">
       <Col xs="auto">

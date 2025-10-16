@@ -1,10 +1,10 @@
 import { Routes, Route, Link } from "react-router-dom";
-import Home from "./pages/Home";
-import TestComponents from "./pages/TestComponents";
-import NotFound from "./pages/NotFound";
-import PythonInterpreter from "./pages/PythonInterpreter";
-import LevelLoader from "./pages/levels/LevelLoader"; // <- está dentro de /pages/levels
-import Stars from "./components/Stars";
+import Home from "./pages/Home.tsx";
+import TestComponents from "./pages/TestComponents.tsx";
+import NotFound from "./pages/NotFound.tsx";
+import PythonInterpreter from "./pages/PythonInterpreter.tsx";
+import LevelLoader from "./pages/levels/LevelLoader.tsx"; // <- está dentro de /pages/levels
+import Stars from "./components/Stars.tsx";
 import Nav from "react-bootstrap/Nav";
 
 import "./css/App.css";

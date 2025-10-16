@@ -1,12 +1,18 @@
 import { useState } from "react";
-import ExecuteButton from "./ExecuteButton";
-import ExecutionResult from "./ExecutionResult";
-export default function PythonTextCompiler({ level, expectedResult,id }) {
+import ExecuteButton from "./ExecuteButton.tsx";
+import ExecutionResult from "./ExecutionResult.tsx";
+
+interface PythonTextCompilerProps {
+  level: number;
+  expectedResult: string;
+  id: number;
+}
+export default function PythonTextCompiler({ level, expectedResult,id }: PythonTextCompilerProps) {
   const [code, setCode] = useState('print("Olá do Python!")');
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState<{ error?: string; detail?: string } | any | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const run = async () => {
+  const run = async (): Promise<void> => {
     setLoading(true);
     setResult(null);
     try {

@@ -1,4 +1,4 @@
-import Level from "./Level";
+import Level from "./Level.tsx";
 
 export default function Level2() {
   return (

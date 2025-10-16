@@ -1,7 +1,7 @@
 // service/InterpreterService.js (ESM)
 import { execFile } from "node:child_process";
 
-export async function runPython(filePath) {
+export async function runPython(filePath){
   return new Promise((resolve) => {
     // Use 'python' on Windows, 'python3' elsewhere
     const pythonCmd = process.platform === "win32" ? "python" : "python3";

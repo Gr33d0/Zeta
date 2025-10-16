@@ -1,16 +1,20 @@
 import { Container, Row, Col } from "react-bootstrap";
-import LevelButton from "../components/LevelButton";
+import LevelButton from "./LevelButton.tsx";
 import { useEffect, useMemo, useState } from "react";
 
 import "../css/LevelPath.css";
 
-export default function LevelPath({ items = [] }) {
-  // 1) name match + sensible default
-  const [stars, setStars] = useState();
-  const userId = 1; // adjust if you have real user IDs
-  // 2) fetch stars once on mount (and expose a quick manual refresh if you want)
+interface LevelPathProps {
+  items?: Array<{ level?: number }>;
+}
 
-  function extractStars(data, userId) {
+export default function LevelPath({ items = [] }: LevelPathProps) {
+
+  const [stars, setStars] = useState<number | null>(null);
+  const userId = 1; 
+
+
+  function extractStars(data: any, userId: number): number | null {
     if (Number.isFinite(data?.stars)) return data.stars;
     if (Array.isArray(data)) {
       const u = data.find((u) => String(u.id) === String(userId));
@@ -23,7 +27,7 @@ export default function LevelPath({ items = [] }) {
     return null;
   }
 
-  const fetchStars = async () => {
+  const fetchStars = async (): Promise<void> => {
     try {
       const res = await fetch(
         `http://localhost:3001/api/getDataUser/${userId}`
@@ -33,10 +37,10 @@ export default function LevelPath({ items = [] }) {
         return;
       }
       const data = await res.json();
-      const val = extractStars(data, userId);
-      if (Number.isFinite(val)) {
+      const val: number | null = extractStars(data, userId);
+      if (Number.isFinite(val) && val !== null) {
         setStars(val);
-        localStorage.setItem("userStars", val);
+        localStorage.setItem("userStars", String(val));
         console.log("Stars do servidor:", val);
       } else {
         console.warn("Resposta sem 'stars' válido:", data);
@@ -113,7 +117,11 @@ export default function LevelPath({ items = [] }) {
 
               // 3) lock rule: locked if level > stars (adjust if your game logic differs)
               const levelNum = Number(it.level ?? i + 1);
-              const locked = levelNum > stars;
+              
+              let locked = true;
+              if (stars !== null) {
+                locked = levelNum > stars;
+              }
 
               return (
                 <div

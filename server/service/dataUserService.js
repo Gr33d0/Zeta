@@ -10,11 +10,11 @@ export async function readJson(filePath, fallback) {
   }
 }
 
-export default function toArrayStore(data) {
+export default function toArrayStore(data ) {
   if (Array.isArray(data)) return data;
   if (data && typeof data === "object") {
     // convert object map {id: {...}} to array
-    return Object.entries(data).map(([id, v]) => ({ id, ...v }));
+    return Object.entries(data).map(([id, v]) => (typeof v === "object" && v !== null ? { id, ...v } : { id, value: v }));
   }
   return [];
 }

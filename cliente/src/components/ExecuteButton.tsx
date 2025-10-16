@@ -1,5 +1,9 @@
 import Button from "react-bootstrap/Button";
-export default function ExecuteButton({ onClick, loading }) {
+interface ExecuteButtonProps {
+  onClick: () => void;
+  loading: boolean;
+}
+export default function ExecuteButton({ onClick, loading }: ExecuteButtonProps) {
   return (
     <Button
       onClick={onClick}

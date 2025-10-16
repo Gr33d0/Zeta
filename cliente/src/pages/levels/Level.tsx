@@ -1,16 +1,23 @@
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Tabs from "react-bootstrap/Tabs";
-import Tab from "react-bootstrap/Tab";
+import {Container,Row,Col,Tabs,Tab} from "react-bootstrap";
 
-import PythonTextCompiler from "../../components/PythonTextCompiler";
-import PythonBlockCompiler from "../../components/PythonBlockCompiler";
-import Hint from '../../components/Hint';
+import PythonTextCompiler from "../../components/PythonTextCompiler.tsx";
+import PythonBlockCompiler from "../../components/PythonBlockCompiler.tsx";
+import Hint from '../../components/Hint.tsx';
 import "../../css/Interpreter.css";
 
+interface PythonInterpreterProps {
+  id: number;
+  level: number;
+  expectedResult: string;
+  allowedVar: boolean;
+  allowedCondition: boolean;
+  allowedLoops: boolean;
+  message: string;
+}
 
-export default function PythonInterpreter({id,level,expectedResult,allowedVar,allowedCondition,allowedLoops,message}) {
+
+
+export default function PythonInterpreter({id,level,expectedResult,allowedVar,allowedCondition,allowedLoops,message}: PythonInterpreterProps) {
   return (
     <Container className="py-3 interpreter-container">
       <Row>

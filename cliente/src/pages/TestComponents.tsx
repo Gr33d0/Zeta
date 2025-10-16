@@ -1,10 +1,10 @@
-import Hint from '../components/Hint';
+import Hint from '../components/Hint.tsx';
 
 
 export default function TestComponents() {
     return (
         <div>
-            <Hint/>
+            <Hint message={''}/>
 
    
         </div>

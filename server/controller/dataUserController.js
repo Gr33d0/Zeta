@@ -1,7 +1,8 @@
 import { promises as fs } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import toArrayStore ,{ readJson}    from "../service/dataUserService.js";
+import toArrayStore, { readJson } from "../service/dataUserService.js";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -10,9 +11,10 @@ const DATA_FILE = path.join(__dirname, "../dataUser.json");
 
 
 
-export async function getDataUser(req, res) {
+
+export async function getDataUser(req, res){
   try {
-    const id = String(req.params.id);
+    const id = req.params.id;
     const dadosRaw = await readJson(DATA_FILE, []);
     const dados = toArrayStore(dadosRaw);
 
@@ -31,7 +33,7 @@ export async function getDataUser(req, res) {
   }
 }
 
-export async function updateDataUser(req, res) {
+export async function updateDataUser(req, res){
   try {
     const id = String(req.params.id);
     const newData = (req.body && typeof req.body === "object") ? req.body : {};
